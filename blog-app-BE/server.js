@@ -48,7 +48,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.status(200).json({ message: "Welcome to my first ever hosted backend!!! " });
 });
 
 app.post("/auth/login", (req, res, next) => {

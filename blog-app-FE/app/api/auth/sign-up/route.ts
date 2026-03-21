@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/auth/create-account", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/create-account`, {
       method: "POST",
       body: JSON.stringify({ email, password, name }),
       headers: {

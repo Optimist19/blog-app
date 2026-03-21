@@ -7,7 +7,7 @@ import Link from "next/link";
 async function BlogCard() {
   const cookieStore = await cookies();
 
-  const res = await fetch("http://localhost:5000/blogs", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`, {
     headers: {
       Cookie: cookieStore.toString()
     }

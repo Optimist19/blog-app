@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = { banner, title, content, desc };
 
-    const res = await fetch("http://localhost:5000/create-blog", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-blog`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

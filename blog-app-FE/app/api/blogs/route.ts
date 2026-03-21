@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const res = await fetch("http://localhost:5000/blogs", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

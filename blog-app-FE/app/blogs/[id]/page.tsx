@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const cookieStore = await cookies();
 
-  const res = await fetch(`http://localhost:5000/blogs/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/${id}`, {
     headers: {
       Cookie: cookieStore.toString()
     }
@@ -40,7 +40,7 @@ async function BlogId({ params }: { params: Promise<{ id: string }> }) {
 
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:5000/blogs/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/${id}`, {
     headers: {
       Cookie: cookieStore.toString()
     }
