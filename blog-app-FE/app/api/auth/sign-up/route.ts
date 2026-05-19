@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { email, password, name } = await req.json();
+  // console.log("Sign up request received:", { email, password, name });
 
 
   if (!email || !password || !name) {
@@ -12,6 +13,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    // const response = await fetch("http://localhost:5000/auth/create-account", {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/create-account`, {
       method: "POST",
       body: JSON.stringify({ email, password, name }),

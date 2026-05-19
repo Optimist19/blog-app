@@ -132,7 +132,7 @@ export default function SignUpPage() {
               />
             </FieldGroup>
 
-            <Button type="submit" disabled={isPending} className="w-full gap-2">
+            <Button type="submit" disabled={isPending} className="w-full gap-2 cursor-pointer">
               {isPending ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />

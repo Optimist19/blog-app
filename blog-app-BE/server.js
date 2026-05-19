@@ -18,6 +18,7 @@ app.use(express.json());
 passportInitializationFtn();
 
 mongoose
+  // .connect("mongodb://localhost:27017/blog-app")
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected!!");
@@ -145,6 +146,7 @@ app.get("/blogs/:id", async (req, res) => {
 });
 
 app.post("/auth/create-account", async (req, res) => {
+  // console.log("create account called", req.body);
   const { email, password, name } = req.body;
 
   if (!email || !password || !name) {

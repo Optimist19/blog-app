@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
+    // console.log(`It entered:`, { email, password });
 
     if (!email || !password) {
       return NextResponse.json(
@@ -12,6 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+    // const response = await fetch("http://localhost:5000/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: {
@@ -55,6 +57,7 @@ export async function POST(req: NextRequest) {
 
     return nextResponse;
   } catch (error) {
+    console.log(error, "errrsss")
     return NextResponse.json({
       message:
         "Unable to connect to the authentication server. Please try again later."
