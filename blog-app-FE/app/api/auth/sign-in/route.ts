@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -53,9 +52,18 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
 
-    const setCookie = response.headers.get("set-cookie");
-    if (setCookie) {
-      nextResponse.headers.append("set-cookie", setCookie);
+    const setCookies = response.headers.getSetCookie?.() ?? [];
+
+
+    if (setCookies.length > 0) {
+      setCookies.forEach((cookie) => {
+        nextResponse.headers.append("set-cookie", cookie);
+      });
+    } else {
+      const setCookie = response.headers.get("set-cookie");
+      if (setCookie) {
+        nextResponse.headers.append("set-cookie", setCookie);
+      }
     }
 
     return nextResponse;

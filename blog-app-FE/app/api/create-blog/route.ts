@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { banner, title, content, desc } = await req.json();
- 
+
   if (!banner || !title || content.length === 0 || !desc) {
     return NextResponse.json({ message: "Necessary field are not filled" });
   }
@@ -21,24 +21,15 @@ export async function POST(req: NextRequest) {
     });
 
     if (!res.ok) {
-      return NextResponse.json(
-        { message: "Something went wrong" }
-      );
+      return NextResponse.json({ message: "Something went wrong" });
     }
     const result = await res.json();
-
 
     const nextResponse = NextResponse.json(
       { message: result },
       { status: result?.status }
     );
 
-    // forward Set-Cookie back to browser
-    const setCookie = res.headers.get("set-cookie");
-
-    if (setCookie) {
-      nextResponse.headers.set("set-cookie", setCookie);
-    }
 
     return nextResponse;
   } catch (error) {

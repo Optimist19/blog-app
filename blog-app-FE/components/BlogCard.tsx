@@ -14,15 +14,16 @@ async function BlogCard() {
     // cache: "no-store"
   });
 
-  if (res.status !== 200) {
+  const result = await res.json();
+
+  if (!res.ok) {
     return (
       <div className="min-h-[90vh] flex items-center justify-center">
-        <p>Unable to fetch</p>
+        <p>{result?.message || "Unable to fetch blogs"}</p>
       </div>
     );
   }
 
-  const result = await res.json();
   const data = result.message;
   return (
     <div className="pt-[10vh]">
