@@ -1,5 +1,6 @@
 require("dotenv").config();
 const dns = require("node:dns");
+const cors = require("cors");
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -11,10 +12,21 @@ const passportInitializationFtn = require("./authentication/auth");
 const { hashPasswordFtn } = require("./hashPassword/hashPassword");
 const Blog = require("./schema-models/blog");
 
+
+
+
 const app = express();
 
 const port = process.env.PORT || 5000;
+app.set("trust proxy", 1);
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "https://blog-app-indol-three.vercel.app/",
+    credentials: true
+  })
+);
 
 passportInitializationFtn();
 
@@ -39,7 +51,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: true, 
+      sameSite: "none", 
+      httpOnly: true 
     },
     store: MongoStore.create({
       client: mongoose.connection.getClient()
@@ -58,6 +73,7 @@ app.get("/", (req, res) => {
 
 app.post("/auth/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
+   
     if (err) {
       return res.status(500).json({ message: "Internal server error" });
     }
@@ -182,5 +198,3 @@ app.post("/auth/create-account", async (req, res) => {
 
   res.status(201).json({ user: savedUser });
 });
-
-
