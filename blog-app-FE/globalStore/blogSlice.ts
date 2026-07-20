@@ -82,32 +82,36 @@ export const blogSlice = createSlice({
         state.contentWithDesc.content = [];
         state.contentWithDesc.desc = "";
       })
-      .addCase(publishBlogBtnFtn.rejected, (state) => {
-        state.err = "Publish failed";
+      .addCase(publishBlogBtnFtn.rejected, (state, action) => {
+        state.err = action.payload as string;
       });
   }
 });
 
 export const publishBlogBtnFtn = createAsyncThunk(
   "blog/publishBlogBtnFtn",
-  async (params: PublishReviewType) => {
+  async (params: PublishReviewType, { rejectWithValue }) => {
     const { banner, title, content, desc } = params;
 
     const dataBody = { banner, title, content, desc };
 
-    const response = await fetch("/api/create-blog", {
-      method: "POST",
-      body: JSON.stringify(dataBody),
-      headers: { "Content-Type": "application/json" }
-    });
+    try {
+      const response = await fetch("/api/create-blog", {
+        method: "POST",
+        body: JSON.stringify(dataBody),
+        headers: { "Content-Type": "application/json" }
+      });
 
-    if (!response.ok) {
-      return "Publish failed";
+      if (!response.ok) {
+        return rejectWithValue("Publish failed");
+      }
+
+      const result = await response.json();
+
+      return result;
+    } catch (error) {
+      return rejectWithValue("Publish failed");
     }
-
-    const result = await response.json();
-
-    return result;
   }
 );
 

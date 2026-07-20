@@ -1,4 +1,5 @@
 require("dotenv").config();
+const dns = require("node:dns");
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -17,6 +18,8 @@ app.use(express.json());
 
 passportInitializationFtn();
 
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
 mongoose
   // .connect("mongodb://localhost:27017/blog-app")
   .connect(process.env.MONGO_URI)
@@ -24,7 +27,6 @@ mongoose
     console.log("Connected!!");
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
-      console.log(`PORTTT :${process.env.PORT}`);
     });
   })
   .catch((err) => {
@@ -49,11 +51,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Welcome to my first ever hosted backend!!! " });
+  res
+    .status(200)
+    .json({ message: "Welcome to my first ever hosted backend!!! " });
 });
 
 app.post("/auth/login", (req, res, next) => {
-  // console.log("/auth/login called", req.body);
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return res.status(500).json({ message: "Internal server error" });
@@ -146,7 +149,6 @@ app.get("/blogs/:id", async (req, res) => {
 });
 
 app.post("/auth/create-account", async (req, res) => {
-  // console.log("create account called", req.body);
   const { email, password, name } = req.body;
 
   if (!email || !password || !name) {
@@ -181,6 +183,4 @@ app.post("/auth/create-account", async (req, res) => {
   res.status(201).json({ user: savedUser });
 });
 
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-// });
+

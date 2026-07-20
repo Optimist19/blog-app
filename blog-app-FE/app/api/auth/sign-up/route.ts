@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { email, password, name } = await req.json();
-  // console.log("Sign up request received:", { email, password, name });
 
 
   if (!email || !password || !name) {
@@ -13,7 +12,6 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // const response = await fetch("http://localhost:5000/auth/create-account", {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/create-account`, {
       method: "POST",
       body: JSON.stringify({ email, password, name }),
@@ -28,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       return NextResponse.json(
-        { message: data?.error || data?.message || "Signup failed" },
+        { message: data?.message || "Signup failed" },
         { status: response.status }
       );
     }
@@ -38,13 +36,8 @@ export async function POST(req: NextRequest) {
       { status: response.status }
     );
 
-    const setCookie = response.headers.get("set-cookie");
-    if (setCookie) {
-      nextResponse.headers.append("set-cookie", setCookie);
-    }
-
     return nextResponse;
   } catch (error) {
-    return NextResponse.json({ message: "Signup failed" }, { status: 500 });
+    return NextResponse.json({ message: "Internal error" }, { status: 500 });
   }
 }

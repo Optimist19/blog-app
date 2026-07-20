@@ -14,8 +14,6 @@ async function BlogCard() {
     // cache: "no-store"
   });
 
-  // console.log(res, "res");
-
   if (res.status !== 200) {
     return (
       <div className="min-h-[90vh] flex items-center justify-center">
@@ -25,9 +23,7 @@ async function BlogCard() {
   }
 
   const result = await res.json();
-  // console.log(result, "resilt")
   const data = result.message;
-  // console.log(data, "data")
   return (
     <div className="pt-[10vh]">
       {data.length === 0 ? (
