@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
         credentials: "include"
       }
     );
-    console.log(response,"response")
 
     const contentType = response.headers.get("content-type") || "";
 

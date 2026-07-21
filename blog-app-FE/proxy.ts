@@ -10,7 +10,6 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  console.log("Session cookie found — allowing request");
   return NextResponse.next();
 }
 
