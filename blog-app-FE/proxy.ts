@@ -7,8 +7,9 @@ export function proxy(request: NextRequest) {
   if (!isLoggedIn) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("next", request.nextUrl.pathname);
-    return NextResponse.redirect(loginUrl);
-  }
+const res = NextResponse.redirect(loginUrl);
+    res.headers.set("Cache-Control", "no-store");
+    return res;  }
 
   return NextResponse.next();
 }

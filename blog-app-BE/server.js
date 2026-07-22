@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://blog-app-indol-three.vercel.app/",
+    origin: "https://blog-app-indol-three.vercel.app",
     credentials: true
   })
 );

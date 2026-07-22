@@ -53,13 +53,17 @@ export default function LoginPage() {
 
         const dataResponse = await response.json();
         if (response.ok) {
-          toast.success(dataResponse?.message,  { position: "top-center" });
+          toast.success(dataResponse?.message, { position: "top-center" });
+          router.refresh();
+
           router.push("/");
         } else {
-          toast.error(dataResponse?.message || "Login failed", {position: "top-center"});
+          toast.error(dataResponse?.message || "Login failed", {
+            position: "top-center"
+          });
         }
       } catch (error) {
-        toast.error("rror logging in",  { position: "top-center" });
+        toast.error("rror logging in", { position: "top-center" });
       }
     });
   }
@@ -113,7 +117,10 @@ export default function LoginPage() {
               />
             </FieldGroup>
 
-            <Button type="submit" disabled={isPending} className="w-full gap-2 cursor-pointer">
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="w-full gap-2 cursor-pointer">
               {isPending ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
